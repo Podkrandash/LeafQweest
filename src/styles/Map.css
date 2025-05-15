@@ -1,0 +1,241 @@
+.map-container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background-color: #1a1d29;
+  z-index: 0;
+}
+
+/* Стили для маркеров */
+.custom-marker {
+  background-color: var(--primary-color);
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 14px !important;
+  height: 14px !important;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+  transition: all 0.3s ease;
+}
+
+.custom-marker:hover {
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+}
+
+.user-location-marker {
+  background-color: #10b981;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 16px !important;
+  height: 16px !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+  position: relative;
+  animation: pulse-user 2s infinite;
+}
+
+.user-location-marker::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background-color: rgba(16, 185, 129, 0.3);
+  border-radius: 50%;
+  z-index: -1;
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* Стили для поп-апов */
+.leaflet-popup-content-wrapper {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+}
+
+.popup-content {
+  padding: 12px;
+}
+
+.popup-content h3 {
+  margin: 0 0 8px 0;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.popup-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.leaflet-popup-tip {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--text-tertiary);
+  padding: 8px 8px 0 0;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: var(--text-primary);
+}
+
+/* Управление и кнопки */
+.leaflet-control-zoom {
+  border: none !important;
+  margin: 15px !important;
+}
+
+.leaflet-control-zoom a {
+  background-color: var(--background-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  transition: all var(--transition-fast);
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: var(--background-tertiary) !important;
+  color: var(--primary-color) !important;
+}
+
+.location-button {
+  position: absolute;
+  bottom: 100px;
+  right: 20px;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.location-button:hover {
+  background-color: var(--background-tertiary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.location-button svg {
+  width: 24px;
+  height: 24px;
+  color: var(--primary-color);
+}
+
+/* Загрузка карты */
+.map-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.map-loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+
+.spinner-leaf {
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-color);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M272 96c-78.6 0-145.1 51.5-167.7 122.5c33.6-17 71.5-26.5 111.7-26.5h88c8.8 0 16 7.2 16 16s-7.2 16-16 16h-88c-16.6 0-32.7 1.9-48.3 5.4c-25.9 5.9-50 16.4-71.4 30.7c0 .1 0 .1-.1.2C38.3 298.8 0 364.9 0 440v16c0 13.3 10.7 24 24 24s24-10.7 24-24v-16c0-48.7 20.7-92.5 53.8-123.2C121.6 392.3 190.3 448 272 448l1 0c132.1-.7 239-130.9 239-291.4c0-42.6-7.5-83.1-21.1-119.6c-2.6-6.9-12.7-6.6-16.2-.1c-23.6 42.5-69.4 71-122.2 71L272 96z'/%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  animation: spin-leaf 2s linear infinite;
+}
+
+@keyframes spin-leaf {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* Анимации */
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-user {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Темная тема для карт */
+.leaflet-tile {
+  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7) !important;
+}
+
+.leaflet-control-attribution {
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  color: var(--text-tertiary) !important;
+  font-size: 10px !important;
+  padding: 3px 5px !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--primary-color) !important;
+} 

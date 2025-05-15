@@ -1,0 +1,219 @@
+.quests-page {
+  padding: 16px;
+  min-height: calc(100vh - var(--header-height) - var(--navbar-height));
+  animation: fadeIn 0.3s ease;
+}
+
+.quests-header {
+  margin-bottom: 20px;
+}
+
+.quests-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+}
+
+.quests-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.quests-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.quests-filter-bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.quests-filter-bar::-webkit-scrollbar-track {
+  background: var(--background-tertiary);
+  border-radius: 4px;
+}
+
+.quests-filter-bar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.filter-chip {
+  padding: 6px 12px;
+  border-radius: var(--border-radius-pill);
+  background-color: var(--background-tertiary);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  user-select: none;
+  border: 1px solid var(--border-color-light);
+}
+
+.filter-chip:hover {
+  background-color: var(--background-hover);
+}
+
+.filter-chip.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.quests-search-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.quests-search {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-tertiary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.quests-search:focus {
+  outline: none;
+  border-color: var(--primary-color-light);
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+}
+
+.quests-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  width: 18px;
+  height: 18px;
+}
+
+.quests-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .quests-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .quests-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.quests-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.quests-empty-icon {
+  font-size: 3rem;
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
+}
+
+.quests-empty-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0 0 16px 0;
+}
+
+.quests-empty-subtext {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.quests-loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.quests-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--background-tertiary);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}
+
+.load-more-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: var(--border-radius);
+  background-color: var(--background-tertiary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.load-more-button:hover {
+  background-color: var(--background-hover);
+}
+
+.load-more-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quests-section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 20px 0 16px 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quests-section-title svg {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} 

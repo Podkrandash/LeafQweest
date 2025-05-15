@@ -1,0 +1,565 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Светлая тема */
+  --light-background: #f5f5f5;
+  --light-card-bg: #ffffff;
+  --light-text: #333333;
+  --light-border: #e0e0e0;
+  --light-primary: #5288c1;
+  --light-accent: #4caf50;
+  --light-error: #f44336;
+  --light-success: #4caf50;
+
+  /* Тёмная тема */
+  --dark-background: #121212;
+  --dark-card-bg: #1e1e1e;
+  --dark-text: #e0e0e0;
+  --dark-border: #333333;
+  --dark-primary: #64b5f6;
+  --dark-accent: #81c784;
+  --dark-error: #e57373;
+  --dark-success: #81c784;
+  
+  /* Общие переменные */
+  --navbar-height: 60px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Контейнер приложения */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Стили для светлой темы */
+.light {
+  background-color: var(--light-background);
+  color: var(--light-text);
+}
+
+.light button {
+  background-color: var(--light-primary);
+  color: white;
+}
+
+/* Стили для тёмной темы */
+.dark {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+}
+
+.dark button {
+  background-color: var(--dark-primary);
+  color: white;
+}
+
+/* Стили для компонента навигации */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--navbar-height);
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.light .navbar {
+  background-color: var(--light-card-bg);
+  border-top: 1px solid var(--light-border);
+}
+
+.dark .navbar {
+  background-color: var(--dark-card-bg);
+  border-top: 1px solid var(--dark-border);
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  list-style: none;
+}
+
+.navbar a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.light .navbar a {
+  color: var(--light-text);
+}
+
+.dark .navbar a {
+  color: var(--dark-text);
+}
+
+.navbar a.active {
+  font-weight: bold;
+}
+
+.light .navbar a.active {
+  color: var(--light-primary);
+}
+
+.dark .navbar a.active {
+  color: var(--dark-primary);
+}
+
+.icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  background-size: contain;
+}
+
+/* Стили для страницы карты */
+.map-page {
+  flex: 1;
+  position: relative;
+}
+
+.quest-card-overlay {
+  position: fixed;
+  bottom: var(--navbar-height);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 16px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.quest-card {
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.light .quest-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.dark .quest-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.light .close-button {
+  color: var(--light-text);
+}
+
+.dark .close-button {
+  color: var(--dark-text);
+}
+
+.quest-info {
+  margin: 16px 0;
+}
+
+.photo-upload {
+  margin: 16px 0;
+}
+
+.upload-placeholder {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.light .upload-placeholder {
+  border-color: var(--light-border);
+}
+
+.dark .upload-placeholder {
+  border-color: var(--dark-border);
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.complete-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.light .complete-button {
+  background-color: var(--light-primary);
+}
+
+.dark .complete-button {
+  background-color: var(--dark-primary);
+}
+
+.complete-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: var(--light-error);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.dark .error-message {
+  color: var(--dark-error);
+}
+
+.success-message {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: var(--light-success);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.dark .success-message {
+  color: var(--dark-success);
+}
+
+/* Стили для страницы профиля */
+.profile-page {
+  padding: 20px;
+  padding-bottom: calc(var(--navbar-height) + 20px);
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: a80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.light .profile-stats {
+  background-color: var(--light-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .profile-stats {
+  background-color: var(--dark-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #888;
+}
+
+.profile-settings {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.light .profile-settings {
+  background-color: var(--light-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .profile-settings {
+  background-color: var(--dark-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid;
+  background: none;
+}
+
+.light .form-group select,
+.light .form-group input {
+  border-color: var(--light-border);
+  color: var(--light-text);
+}
+
+.dark .form-group select,
+.dark .form-group input {
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+  background-color: var(--dark-card-bg);
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.form-group.checkbox label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.form-group.checkbox input {
+  width: auto;
+  margin-right: 8px;
+}
+
+.save-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Стили для страницы лидерборда */
+.leaderboard-page {
+  padding: 20px;
+  padding-bottom: calc(var(--navbar-height) + 20px);
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.light .tab {
+  color: var(--light-text);
+}
+
+.dark .tab {
+  color: var(--dark-text);
+}
+
+.tab.active {
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
+
+.light .tab.active {
+  border-color: var(--light-primary);
+  color: var(--light-primary);
+}
+
+.dark .tab.active {
+  border-color: var(--dark-primary);
+  color: var(--dark-primary);
+}
+
+.user-rank {
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.light .user-rank {
+  background-color: var(--light-primary);
+  color: white;
+}
+
+.dark .user-rank {
+  background-color: var(--dark-primary);
+  color: white;
+}
+
+.leaderboard-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.light .leaderboard-table {
+  background-color: var(--light-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .leaderboard-table {
+  background-color: var(--dark-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.light .table-header {
+  background-color: #f0f0f0;
+}
+
+.dark .table-header {
+  background-color: #2a2a2a;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr;
+  padding: 12px;
+  align-items: center;
+}
+
+.light .table-row {
+  border-bottom: 1px solid var(--light-border);
+}
+
+.dark .table-row {
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.table-row.current-user {
+  font-weight: bold;
+}
+
+.light .table-row.current-user {
+  background-color: rgba(82, 136, 193, 0.1);
+}
+
+.dark .table-row.current-user {
+  background-color: rgba(100, 181, 246, 0.1);
+}
+
+.user-column {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.empty-state {
+  padding: 32px;
+  text-align: center;
+  color: #888;
+}
+
+.loading, .error {
+  padding: 32px;
+  text-align: center;
+}
+
+/* Иконки для навигации */
+.map-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6'%3E%3C/polygon%3E%3Cline x1='8' y1='2' x2='8' y2='18'%3E%3C/line%3E%3Cline x1='16' y1='6' x2='16' y2='22'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.leaderboard-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20V10'%3E%3C/path%3E%3Cpath d='M12 20V4'%3E%3C/path%3E%3Cpath d='M6 20V14'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.profile-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E");
+}

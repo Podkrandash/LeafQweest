@@ -1,0 +1,462 @@
+.profile-page {
+  min-height: 100vh;
+  padding: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  position: relative;
+}
+
+/* Анимированный спиннер загрузки */
+.profile-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.profile-loading-spinner {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.spinner-leaf {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50% 50% 50% 0;
+  border: 3px solid rgba(var(--primary-color-rgb), 0.9);
+  transform: rotate(-45deg);
+  animation: spinnerRotate 2s infinite linear;
+}
+
+@keyframes spinnerRotate {
+  0% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(315deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(var(--primary-color-rgb), 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0);
+  }
+}
+
+/* Оформление заголовка профиля */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px 20px;
+  position: relative;
+  color: white;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-header-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.9), rgba(var(--primary-color-rgb), 0.6));
+  z-index: -1;
+}
+
+.profile-header h1 {
+  margin: 10px 0 5px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.profile-header .username {
+  margin: 0 0 15px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.profile-avatar-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 5px;
+  background-color: var(--background-secondary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(var(--primary-color-rgb), 0.7);
+}
+
+.profile-level-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--gold);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+}
+
+.profile-level-progress {
+  width: 90%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.progress-bar-container {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--gold-light);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Статистика профиля */
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
+.profile-stat-card {
+  background-color: var(--background-secondary);
+  border-radius: 10px;
+  padding: 15px 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.profile-stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-card-icon {
+  height: 24px;
+  margin-bottom: 5px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.quests-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234CAF50'%3E%3Cpath d='M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3C12.55,3 13,3.45 13,4C13,4.55 12.55,5 12,5C11.45,5 11,4.55 11,4C11,3.45 11.45,3 12,3M7,7H17V5H19V19H5V5H7V7M12,17L7,12L8.4,10.6L12,14.2L17.6,8.6L19,10L12,17Z'/%3E%3C/svg%3E");
+}
+
+.level-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFC107'%3E%3Cpath d='M12,2L15.09,8.26L22,9.27L17,14.14L18.18,21.02L12,17.77L5.82,21.02L7,14.14L2,9.27L8.91,8.26L12,2M12,5.5L10.05,9.47L6.03,10.14L9.01,13.05L8.27,17.04L12,15.16L15.73,17.04L14.99,13.05L17.97,10.14L13.95,9.47L12,5.5Z'/%3E%3C/svg%3E");
+}
+
+.achievements-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E91E63'%3E%3Cpath d='M20,2H4V4L9.81,8.36C6.14,9.57 4.14,13.53 5.35,17.2C6.56,20.87 10.5,22.87 14.19,21.66C17.86,20.45 19.86,16.5 18.65,12.82C17.92,10.73 16.29,9.17 14.27,8.37L20,4V2M14.94,19.5L12,17.78L9.06,19.5L9.84,16.17L7.25,13.93L10.66,13.64L12,10.5L13.34,13.64L16.75,13.93L14.16,16.17L14.94,19.5Z'/%3E%3C/svg%3E");
+}
+
+.stat-card-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.stat-card-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Вкладки */
+.profile-tabs {
+  display: flex;
+  margin: 0 16px 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background-color: var(--background-secondary);
+  border: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.profile-tab.active {
+  background-color: rgba(var(--primary-color-rgb), 0.8);
+  color: white;
+}
+
+.profile-tab:hover:not(.active) {
+  background-color: var(--background-tertiary);
+}
+
+/* Форма настроек */
+.profile-settings {
+  padding: 0 16px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  appearance: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: rgba(var(--primary-color-rgb), 0.8);
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+}
+
+/* Стилизация select */
+select.form-control {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Стилизация чекбокса */
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-text {
+  position: relative;
+  padding-left: 35px;
+  font-weight: 400;
+}
+
+.checkbox-text:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 2px solid var(--border-color);
+  background-color: var(--background-secondary);
+  transition: all 0.2s;
+}
+
+.checkbox-input:checked + .checkbox-text:before {
+  background-color: rgba(var(--primary-color-rgb), 0.8);
+  border-color: rgba(var(--primary-color-rgb), 0.8);
+}
+
+.checkbox-input:checked + .checkbox-text:after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Кнопка сохранения */
+.save-button {
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(var(--primary-color-rgb), 0.9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  margin-top: 10px;
+}
+
+.save-button:hover {
+  background-color: rgba(var(--primary-color-rgb), 1);
+}
+
+.save-button:active {
+  transform: scale(0.98);
+}
+
+.save-button:disabled {
+  background-color: rgba(var(--primary-color-rgb), 0.5);
+  cursor: not-allowed;
+}
+
+/* Уведомления */
+.error-message, .success-message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  animation: fadeIn 0.3s;
+}
+
+.error-message {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid #f44336;
+}
+
+.success-message {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid #4caf50;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Страница достижений */
+.profile-achievements {
+  padding: 0 16px;
+}
+
+.achievements-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.achievements-empty .achievements-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E91E63'%3E%3Cpath d='M20,2H4V4L9.81,8.36C6.14,9.57 4.14,13.53 5.35,17.2C6.56,20.87 10.5,22.87 14.19,21.66C17.86,20.45 19.86,16.5 18.65,12.82C17.92,10.73 16.29,9.17 14.27,8.37L20,4V2M14.94,19.5L12,17.78L9.06,19.5L9.84,16.17L7.25,13.93L10.66,13.64L12,10.5L13.34,13.64L16.75,13.93L14.16,16.17L14.94,19.5Z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+.achievements-empty p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .profile-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .stat-card-value {
+    font-size: 1.2rem;
+  }
+  
+  .stat-card-label {
+    font-size: 0.7rem;
+  }
+} 
