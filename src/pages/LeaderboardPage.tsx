@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTelegram } from '../contexts/TelegramContext';
-import { api, leaderboardApi } from '../api/api';
+import { leaderboardApi } from '../api/api';
 import type { LeaderboardEntry } from '../types';
 import '../styles/LeaderboardPage.css';
 

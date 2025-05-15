@@ -23,7 +23,7 @@ class ApiClient {
   ): Promise<T> {
     // Если используем мок-данные, возвращаем их
     if (this.useMocks) {
-      return this.getMockData<T>(endpoint, options);
+      return this.getMockData<T>(endpoint);
     }
     
     // Иначе делаем реальный запрос
@@ -50,7 +50,7 @@ class ApiClient {
   }
   
   // Метод для получения мок-данных вместо реальных запросов
-  protected getMockData<T>(endpoint: string, options: RequestInit): Promise<T> {
+  protected getMockData<T>(endpoint: string): Promise<T> {
     // Имитируем задержку сети
     return new Promise((resolve) => {
       setTimeout(() => {

@@ -3,7 +3,6 @@ import { useTelegram } from '../contexts/TelegramContext';
 
 const Navbar = () => {
   const location = useLocation();
-  const { theme } = useTelegram();
   
   return (
     <nav className="navbar">

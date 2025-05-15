@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTelegram } from '../contexts/TelegramContext';
 import { userApi } from '../api/api';
-import type { AppSettings, User } from '../types';
+import type { AppSettings } from '../types';
 
 // Кэширование данных настроек
 let settingsCache: AppSettings | null = null;

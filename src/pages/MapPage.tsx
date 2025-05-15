@@ -93,8 +93,9 @@ const MapPage = () => {
         <>
           <Map
             quests={quests}
-            onQuestClick={handleQuestClick}
-            onPositionUpdate={handlePositionUpdate}
+            onQuestSelect={handleQuestClick}
+            userPosition={userPosition}
+            completedQuestIds={[]}
           />
           
           {selectedQuest && (
