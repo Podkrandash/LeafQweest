@@ -1,5 +1,4 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useTelegram } from '../contexts/TelegramContext';
 
 const Navbar = () => {
   const location = useLocation();

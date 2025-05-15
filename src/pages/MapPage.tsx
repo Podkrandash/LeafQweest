@@ -44,6 +44,23 @@ const MapPage = () => {
     loadQuests();
   }, []);
   
+  // Получаем геолокацию пользователя
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (geoPosition) => {
+          setUserPosition({
+            latitude: geoPosition.coords.latitude,
+            longitude: geoPosition.coords.longitude
+          });
+        },
+        (error) => {
+          console.error('Ошибка получения геолокации:', error);
+        }
+      );
+    }
+  }, []);
+  
   const handleQuestClick = (quest: Quest) => {
     setSelectedQuest(quest);
   };
@@ -73,10 +90,6 @@ const MapPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handlePositionUpdate = (position: Position) => {
-    setUserPosition(position);
   };
   
   return (
