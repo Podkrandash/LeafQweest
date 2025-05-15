@@ -34,9 +34,6 @@ function App() {
     // Разворачиваем приложение на весь экран
     WebApp.expand();
     
-    // Запрещаем приложению сжиматься
-    WebApp.isExpanded = true;
-    
     // Устанавливаем заголовок
     WebApp.setHeaderColor('#1f2937');
     
