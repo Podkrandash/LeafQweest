@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTelegram } from '../contexts/TelegramContext';
-import { userApi } from '../api/api';
-import type { AppSettings } from '../types';
+import { leaderboardApi } from '../api/api';
+import type { AppSettings, LeaderboardEntry } from '../types';
 
 // Кэширование данных настроек
 let settingsCache: AppSettings | null = null;
@@ -11,6 +11,7 @@ interface ProfileStats {
   nextLevelXp: number;
   currentXp: number;
   achievements: number;
+  rank: number | null;
 }
 
 const calculateUserStats = (completedQuests: number): ProfileStats => {
@@ -29,7 +30,7 @@ const calculateUserStats = (completedQuests: number): ProfileStats => {
   // Оценка числа достижений на основе квестов
   const achievements = Math.floor(completedQuests / 3);
   
-  return { level, nextLevelXp, currentXp, achievements };
+  return { level, nextLevelXp, currentXp, achievements, rank: null };
 };
 
 const ProfilePage = () => {
@@ -43,7 +44,8 @@ const ProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [stats, setStats] = useState<ProfileStats | null>(null);
-  const [activeTab, setActiveTab] = useState<'settings' | 'achievements'>('settings');
+  const [leaderboardEntries, setLeaderboardEntries] = useState<LeaderboardEntry[]>([]);
+  const [activeTab, setActiveTab] = useState<'achievements' | 'settings'>('achievements');
 
   // При первой загрузке сохраняем данные в кэш
   useEffect(() => {
@@ -52,10 +54,38 @@ const ProfilePage = () => {
     }
   }, [settings]);
   
-  // Расчет статистики пользователя
+  // Загрузка данных таблицы лидеров для определения ранга пользователя
   useEffect(() => {
     if (user) {
-      setStats(calculateUserStats(user.completedQuests));
+      // Расчет статистики пользователя
+      const calculatedStats = calculateUserStats(user.completedQuests);
+      
+      const fetchLeaderboardData = async () => {
+        try {
+          // Получаем данные для глобальной таблицы лидеров
+          const globalData = await leaderboardApi.getLeaderboard('global');
+          setLeaderboardEntries(globalData);
+          
+          // Определяем ранг пользователя в глобальной таблице
+          if (user && globalData) {
+            const userIndex = globalData.findIndex(
+              entry => String(entry.userId) === String(user.id)
+            );
+            
+            if (userIndex !== -1) {
+              calculatedStats.rank = userIndex + 1;
+            }
+          }
+          
+          setStats(calculatedStats);
+        } catch (err) {
+          console.error('Ошибка загрузки данных:', err);
+          // Если не удалось загрузить ранг, просто установим статистику без ранга
+          setStats(calculatedStats);
+        }
+      };
+      
+      fetchLeaderboardData();
     }
   }, [user]);
 
@@ -84,7 +114,8 @@ const ProfilePage = () => {
       setError(null);
       setSuccess(null);
       
-      await userApi.updateSettings(settings);
+      // В реальном приложении здесь был бы API-запрос
+      // await userApi.updateSettings(settings);
       setSuccess('Настройки успешно сохранены');
       
       // Обновляем кэш
@@ -142,6 +173,13 @@ const ProfilePage = () => {
         <h1>{user.firstName} {user.lastName}</h1>
         <p className="username">@{user.username}</p>
         
+        {stats && stats.rank && (
+          <div className="user-global-rank">
+            <div className="rank-badge">{stats.rank}</div>
+            <div className="rank-text">место в рейтинге</div>
+          </div>
+        )}
+        
         {stats && (
           <div className="profile-level-progress">
             <div className="progress-text">
@@ -182,87 +220,55 @@ const ProfilePage = () => {
         )}
       </div>
       
-      <div className="profile-tabs">
-        <button 
-          className={`profile-tab ${activeTab === 'settings' ? 'active' : ''}`}
-          onClick={() => setActiveTab('settings')}
-        >
-          Настройки
-        </button>
-        <button 
-          className={`profile-tab ${activeTab === 'achievements' ? 'active' : ''}`}
-          onClick={() => setActiveTab('achievements')}
-        >
-          Достижения
-        </button>
-      </div>
-      
-      {activeTab === 'settings' && (
-        <div className="profile-settings">
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
-          
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="theme">Тема оформления</label>
-              <select
-                id="theme"
-                name="theme"
-                value={settings.theme}
-                onChange={handleSettingsChange}
-                className="form-control"
-              >
-                <option value="light">Светлая</option>
-                <option value="dark">Тёмная</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="language">Язык</label>
-              <select
-                id="language"
-                name="language"
-                value={settings.language}
-                onChange={handleSettingsChange}
-                className="form-control"
-              >
-                <option value="ru">Русский</option>
-                <option value="en">English</option>
-              </select>
-            </div>
-            
-            <div className="form-group checkbox">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="notifications"
-                  checked={settings.notifications}
-                  onChange={handleSettingsChange}
-                  className="checkbox-input"
-                />
-                <span className="checkbox-text">Уведомления</span>
-              </label>
-            </div>
-            
-            <button 
-              type="submit" 
-              className="save-button"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Сохранение...' : 'Сохранить настройки'}
-            </button>
-          </form>
-        </div>
-      )}
-      
-      {activeTab === 'achievements' && (
-        <div className="profile-achievements">
-          <div className="achievements-empty">
-            <div className="achievements-icon"></div>
-            <p>Достижения будут доступны в ближайшее время</p>
+      {/* Сокращаем раздел настроек до минимума */}
+      <div className="profile-settings">
+        <div className="settings-section">
+          <h2 className="section-title">Уведомления</h2>
+          <div className="toggle-setting">
+            <span>Получать уведомления о новых квестах</span>
+            <label className="toggle-switch">
+              <input
+                type="checkbox"
+                checked={settings.notifications}
+                onChange={(e) => {
+                  setSettings({...settings, notifications: e.target.checked});
+                  settingsCache = {...settings, notifications: e.target.checked};
+                }}
+              />
+              <span className="toggle-slider"></span>
+            </label>
           </div>
         </div>
-      )}
+        
+        <div className="settings-section">
+          <h2 className="section-title">Язык</h2>
+          <div className="language-selector">
+            <button 
+              className={`language-option ${settings.language === 'ru' ? 'active' : ''}`}
+              onClick={() => {
+                setSettings({...settings, language: 'ru'});
+                settingsCache = {...settings, language: 'ru'};
+              }}
+            >
+              Русский
+            </button>
+            <button 
+              className={`language-option ${settings.language === 'en' ? 'active' : ''}`}
+              onClick={() => {
+                setSettings({...settings, language: 'en'});
+                settingsCache = {...settings, language: 'en'};
+              }}
+            >
+              English
+            </button>
+          </div>
+        </div>
+        
+        <div className="user-version">
+          <div className="version-label">Версия приложения</div>
+          <div className="version-number">1.0.0</div>
+        </div>
+      </div>
     </div>
   );
 };

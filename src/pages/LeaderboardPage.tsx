@@ -140,8 +140,50 @@ const LeaderboardPage = () => {
       
       {userRank !== null && (
         <div className="user-rank">
-          <div className="rank-label">Ваш рейтинг:</div>
-          <div className="rank-value">{userRank}</div>
+          <div className="user-rank-content">
+            <div className="user-rank-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 16L4 8l1.5-1.5L12 13l6.5-6.5L20 8l-8 8z" fill="currentColor" />
+              </svg>
+            </div>
+            <div className="user-rank-info">
+              <div className="user-rank-title">Ваш текущий рейтинг</div>
+              <div className="user-rank-position">
+                <span className="rank-number">{userRank}</span>
+                <span className="rank-suffix">место</span>
+              </div>
+            </div>
+            <div className="user-rank-stats">
+              {user && globalLeaderboard.find(entry => String(entry.userId) === String(user.id)) && (
+                <>
+                  <div className="rank-stat">
+                    <span className="stat-value">
+                      {globalLeaderboard.find(entry => String(entry.userId) === String(user.id))?.score || 0}
+                    </span>
+                    <span className="stat-label">Очки</span>
+                  </div>
+                  <div className="rank-stat">
+                    <span className="stat-value">
+                      {globalLeaderboard.find(entry => String(entry.userId) === String(user.id))?.completedQuests || 0}
+                    </span>
+                    <span className="stat-label">Квесты</span>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          
+          {userRank > 3 && userRank <= 10 && (
+            <div className="user-rank-progress">
+              <div className="progress-text">До топ-3 осталось: {userRank - 3} позиций</div>
+              <div className="progress-bar-container">
+                <div 
+                  className="progress-bar" 
+                  style={{ width: `${((10 - userRank) / 7) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
         </div>
       )}
       

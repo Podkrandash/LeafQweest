@@ -34,15 +34,25 @@ function App() {
     // Разворачиваем приложение на весь экран
     WebApp.expand();
     
+    // Запрещаем приложению сжиматься
+    WebApp.isExpanded = true;
+    
     // Устанавливаем заголовок
     WebApp.setHeaderColor('#1f2937');
     
-    // Включаем подтверждение при закрытии
+    // Запрещаем закрытие без подтверждения
     WebApp.enableClosingConfirmation();
     
     // Настраиваем кнопку назад
     WebApp.BackButton.onClick(() => {
       window.history.back();
+    });
+
+    // Добавляем обработчик на событие попытки сворачивания
+    WebApp.onEvent('viewportChanged', ({ isStateStable }) => {
+      if (isStateStable && !WebApp.isExpanded) {
+        WebApp.expand();
+      }
     });
 
     // Имитация загрузки всего приложения
@@ -53,6 +63,7 @@ function App() {
     return () => {
       // Отключаем обработчики при размонтировании
       WebApp.onEvent('backButtonClicked', () => {});
+      WebApp.onEvent('viewportChanged', () => {});
       clearTimeout(timer);
     };
   }, []);
