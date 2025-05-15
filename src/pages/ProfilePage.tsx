@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTelegram } from '../contexts/TelegramContext';
 import { leaderboardApi } from '../api/api';
-import type { AppSettings, LeaderboardEntry } from '../types';
+import type { AppSettings } from '../types';
 
 // Кэширование данных настроек
 let settingsCache: AppSettings | null = null;
@@ -40,12 +40,7 @@ const ProfilePage = () => {
     language: 'ru',
     notifications: true,
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const [stats, setStats] = useState<ProfileStats | null>(null);
-  const [leaderboardEntries, setLeaderboardEntries] = useState<LeaderboardEntry[]>([]);
-  const [activeTab, setActiveTab] = useState<'achievements' | 'settings'>('achievements');
 
   // При первой загрузке сохраняем данные в кэш
   useEffect(() => {
@@ -64,7 +59,6 @@ const ProfilePage = () => {
         try {
           // Получаем данные для глобальной таблицы лидеров
           const globalData = await leaderboardApi.getLeaderboard('global');
-          setLeaderboardEntries(globalData);
           
           // Определяем ранг пользователя в глобальной таблице
           if (user && globalData) {
@@ -88,55 +82,6 @@ const ProfilePage = () => {
       fetchLeaderboardData();
     }
   }, [user]);
-
-  const handleSettingsChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value, type } = e.target as HTMLInputElement;
-    
-    const newSettings = {
-      ...settings,
-      [name]: type === 'checkbox' 
-        ? (e.target as HTMLInputElement).checked 
-        : value,
-    };
-    
-    setSettings(newSettings);
-    // Обновляем кэш
-    settingsCache = newSettings;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      setIsLoading(true);
-      setError(null);
-      setSuccess(null);
-      
-      // В реальном приложении здесь был бы API-запрос
-      // await userApi.updateSettings(settings);
-      setSuccess('Настройки успешно сохранены');
-      
-      // Обновляем кэш
-      settingsCache = settings;
-      
-      // Показываем уведомление на короткое время
-      setTimeout(() => {
-        setSuccess(null);
-      }, 3000);
-    } catch (err) {
-      setError('Не удалось сохранить настройки');
-      console.error(err);
-      
-      // Автоматически скрываем ошибку через 3 секунды
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   if (!user) {
     return (
@@ -220,7 +165,7 @@ const ProfilePage = () => {
         )}
       </div>
       
-      {/* Сокращаем раздел настроек до минимума */}
+      {/* Настройки профиля */}
       <div className="profile-settings">
         <div className="settings-section">
           <h2 className="section-title">Уведомления</h2>
