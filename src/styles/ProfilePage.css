@@ -1,10 +1,12 @@
 .profile-page {
   min-height: 100vh;
-  padding: 0 0 32px 0;
+  padding: 0 0 calc(var(--navbar-height) + 20px) 0;
   display: flex;
   flex-direction: column;
   background-color: var(--background);
   position: relative;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Анимированный спиннер загрузки */
@@ -73,6 +75,8 @@
   overflow: hidden;
   text-align: center;
   margin-bottom: 20px;
+  width: 100%;
+  background: transparent;
 }
 
 .profile-header-backdrop {
@@ -90,12 +94,16 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: white;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .profile-header .username {
   margin: 0 0 15px;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.8);
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .profile-avatar-container {
@@ -184,6 +192,10 @@
   gap: 12px;
   padding: 0 16px;
   margin-bottom: 24px;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-stat-card {
@@ -192,7 +204,7 @@
   padding: 15px 10px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .profile-stat-card:hover {
@@ -266,6 +278,8 @@
   padding: 0 20px 20px;
   max-width: 600px;
   margin: 0 auto;
+  width: 100%;
+  background-color: transparent;
 }
 
 .form-group {
@@ -448,22 +462,116 @@ select.form-control {
 }
 
 /* Адаптивность */
+@media (max-width: 768px) {
+  .profile-header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .profile-avatar-container {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .profile-level-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+  
+  .profile-level-progress {
+    width: 95%;
+  }
+}
+
 @media (max-width: 480px) {
   .profile-stats-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+    padding: 0 12px;
   }
   
   .stat-card-value {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   
   .stat-card-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  }
+  
+  .user-global-rank {
+    padding: 8px 14px;
+    max-width: 200px;
+  }
+  
+  .rank-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+  
+  .rank-text {
+    font-size: 0.8rem;
+  }
+  
+  .settings-section {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  
+  .language-option {
+    padding: 10px;
+    font-size: 0.85rem;
   }
 }
 
-/* Добавляем новые стили для блока рейтинга пользователя */
+@media (max-width: 360px) {
+  .profile-stats-grid {
+    gap: 6px;
+    padding: 0 10px;
+  }
+  
+  .profile-stat-card {
+    padding: 10px 5px;
+  }
+  
+  .stat-card-value {
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+  
+  .stat-card-label {
+    font-size: 0.6rem;
+  }
+  
+  .toggle-setting {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .toggle-setting span {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+}
+
+/* Стили для больших экранов */
+@media (min-width: 1024px) {
+  .profile-settings {
+    max-width: 800px;
+  }
+  
+  .profile-stats-grid {
+    max-width: 800px;
+  }
+}
+
+/* Новые стили для блока рейтинга пользователя */
 .user-global-rank {
   margin: 12px 0;
   display: flex;
@@ -568,6 +676,7 @@ select.form-control {
   background-color: var(--background-tertiary);
   transition: .4s;
   border-radius: 34px;
+  border: 1px solid rgba(var(--primary-color-rgb), 0.3);
 }
 
 .toggle-slider:before {
@@ -652,23 +761,13 @@ input:checked + .toggle-slider:before {
   box-shadow: 0 8px 15px rgba(var(--primary-color-rgb), 0.15);
 }
 
-/* Добавим стили для мобильных устройств */
-@media (max-width: 480px) {
-  .user-global-rank {
-    padding: 10px 16px;
-  }
-  
-  .rank-badge {
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
-  }
-  
-  .rank-text {
-    font-size: 0.85rem;
-  }
-  
-  .settings-section {
-    padding: 16px;
-  }
+/* Обеспечиваем доступность для сенсорных устройств */
+.language-option, 
+.toggle-switch {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.language-option:active {
+  transform: scale(0.98);
 } 

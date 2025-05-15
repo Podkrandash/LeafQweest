@@ -80,11 +80,80 @@
   font-weight: 600;
 }
 
-/* Медиа-запрос для мобильных устройств */
+/* Медиа-запросы для разных устройств */
+@media (max-width: 768px) {
+  .navbar {
+    width: 95%;
+    max-width: 350px;
+    bottom: 15px;
+  }
+}
+
 @media (max-width: 640px) {
   .navbar {
     width: 90%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    width: 90%;
     max-width: 300px;
+    height: 56px;
+    bottom: 10px;
+    padding: 0 15px;
+  }
+  
+  .navbar-item {
+    width: 50px;
+  }
+  
+  .navbar-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .navbar-label {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar {
+    width: 95%;
+    max-width: 280px;
+    height: 50px;
+    padding: 0 10px;
+  }
+  
+  .navbar-item {
+    width: 45px;
+  }
+  
+  .navbar-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Для устройств с Safe Area (iPhone X и новее) */
+@supports (padding: max(0px)) {
+  .navbar {
+    padding-bottom: max(15px, env(safe-area-inset-bottom));
+    height: calc(60px + env(safe-area-inset-bottom));
+  }
+  
+  @media (max-width: 480px) {
+    .navbar {
+      height: calc(56px + env(safe-area-inset-bottom));
+    }
+  }
+  
+  @media (max-width: 360px) {
+    .navbar {
+      height: calc(50px + env(safe-area-inset-bottom));
+    }
   }
 }
 
